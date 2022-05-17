@@ -1,5 +1,5 @@
 import { Component } from 'solid-js'
-import './index.css'
+import './index.scss'
 
 export { Page }
 
