@@ -1,5 +1,5 @@
 import { Component } from 'solid-js'
-import { Counter } from './Counter'
+import { DynamicComponent } from '../../components/DynamicComponent'
 
 const Page: Component = () => {
   return (
@@ -9,7 +9,7 @@ const Page: Component = () => {
       <ul>
         <li>Rendered to HTML.</li>
         <li>
-          Interactive. <Counter name="Demo" />
+          Interactive. <DynamicComponent name="Counter" params={{name: 'test'}} />
         </li>
       </ul>
     </>
