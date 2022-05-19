@@ -13,21 +13,23 @@ export { passToClient }
 export { onBeforeRender }
 
 // See https://vite-plugin-ssr.com/data-fetching
-const passToClient = ['pageProps', 'documentProps'];
+const passToClient = ['pageProps', 'documentProps', 'csrComponents'];
+let csrComponents: CsrComponent[] = [];
 
 async function onBeforeRender(pageContext: PageContext) {
   const pageLayoutConfig = config.find((c) => c.url === pageContext.url)?.layout;
+  csrComponents = [];
 
   return {
     pageContext: {
       pageLayoutConfig,
+      csrComponents
     }
   }
 }
 
 function render(pageContext: PageContext) {
   const { Page, pageProps, pageLayoutConfig } = pageContext;
-  const csrComponents: CsrComponent[] = [];
 
   const DynamicPageContent =  () => <For each={pageLayoutConfig}>{(comp: any, i) => {
     const id: string = `comp-${i().toString()}`;
