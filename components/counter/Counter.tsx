@@ -1,9 +1,10 @@
 import { Component, createSignal, onMount } from 'solid-js'
 import { isServer } from 'solid-js/web';
+import { BaseComponentProps } from '../../interfaces/base-component-props.interface';
 import './Counter.scss';
 export { Counter }
 
-export interface CounterProps {
+export interface CounterProps extends BaseComponentProps {
   name: string;
 }
 
@@ -16,7 +17,7 @@ const Counter: Component<CounterProps> = (props: CounterProps) => {
   }
 
   return (
-    <button class="Counter-Btn" type="button" onClick={() => setCount((prev) => prev + 1)}>
+    <button id={props.id} class="Counter-Btn" type="button" onClick={() => setCount((prev) => prev + 1)}>
       Counter {props.name} {count()}
     </button>
   )

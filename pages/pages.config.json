@@ -1,0 +1,14 @@
+[
+    {
+        "url": "/",
+        "layout": [
+            {
+                "component": "Counter",
+                "params": {
+                    "name": "Demo1"
+                },
+                "isCsr": true
+            }
+        ]
+    }
+]

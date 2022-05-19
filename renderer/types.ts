@@ -8,4 +8,5 @@ export type PageContext = PageContextBuiltIn & {
     title?: string
     description?: string
   }
+  pageLayoutConfig: any
 }

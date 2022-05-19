@@ -9,12 +9,13 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true
   },
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "CommonJS",
     }
   }
 }

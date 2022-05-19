@@ -17,7 +17,6 @@ const PageLayout: Component<any> = (props) => {
         </a>
       </Sidebar>
       <Content>{props.children}</Content>
-      <div id="outlet"></div>
     </Layout>
   )
 }

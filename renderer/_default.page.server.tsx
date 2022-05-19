@@ -3,19 +3,46 @@ import { PageLayout } from './PageLayout'
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { PageContext } from './types'
 import logoUrl from './logo.svg'
+import { CsrComponent } from '../interfaces/csr-component.interface';
+import config from '../pages/pages.config.json';
+import { DynamicComponent } from '../components/DynamicComponent'
+import { For } from 'solid-js'
 
 export { render }
 export { passToClient }
+export { onBeforeRender }
 
 // See https://vite-plugin-ssr.com/data-fetching
-const passToClient = ['pageProps', 'documentProps']
+const passToClient = ['pageProps', 'documentProps'];
+
+async function onBeforeRender(pageContext: PageContext) {
+  const pageLayoutConfig = config.find((c) => c.url === pageContext.url)?.layout;
+
+  return {
+    pageContext: {
+      pageLayoutConfig,
+    }
+  }
+}
 
 function render(pageContext: PageContext) {
-  const { Page, pageProps } = pageContext
+  const { Page, pageProps, pageLayoutConfig } = pageContext;
+  const csrComponents: CsrComponent[] = [];
 
+  const DynamicPageContent =  () => <For each={pageLayoutConfig}>{(comp: any, i) => {
+    const id: string = `comp-${i().toString()}`;
+    if (comp.isCsr) {
+      csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
+    }
+    return (
+      <DynamicComponent name={comp.component} params={{id: id, ...comp.params}} />
+    )
+  }
+  }</For>;
+  
   const pageHtml = renderToString(() => (
     <PageLayout>
-      <Page {...pageProps} />
+      <DynamicPageContent />
     </PageLayout>
   ))
 
