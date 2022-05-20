@@ -15,7 +15,7 @@ async function doHydrate() {
       if (ssrComponent) {
         hydrate(
           () => (
-            <DynamicComponent name={comp.name} params={{id: comp.id, ...comp.params}} />
+            <DynamicComponent name={comp.name} params={{...comp.params}} />
           ),
           ssrComponent
         )

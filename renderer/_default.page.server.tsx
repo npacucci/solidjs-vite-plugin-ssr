@@ -6,7 +6,6 @@ import logoUrl from './logo.svg'
 import { CsrComponent } from '../interfaces/csr-component.interface';
 import config from '../pages/pages.config.json';
 import { DynamicComponent } from '../components/DynamicComponent'
-import { For } from 'solid-js'
 
 export { render }
 export { passToClient }
@@ -31,20 +30,21 @@ async function onBeforeRender(pageContext: PageContext) {
 function render(pageContext: PageContext) {
   const { Page, pageProps, pageLayoutConfig } = pageContext;
 
-  const DynamicPageContent =  () => <For each={pageLayoutConfig}>{(comp: any, i) => {
-    const id: string = `comp-${i().toString()}`;
+  const DynamicPageContent: string = pageLayoutConfig.map((comp: any, i: number) => {
+    const id: string = `comp-${i.toString()}`;
     if (comp.isCsr) {
       csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
     }
-    return (
-      <DynamicComponent name={comp.component} params={{id: id, ...comp.params}} />
-    )
-  }
-  }</For>;
-  
+    return `
+    <div id="${id}">
+      ${renderToString(() => <DynamicComponent name={comp.component} params={{...comp.params}} />)}
+    </div>
+    `;
+  }).join(''); 
+
   const pageHtml = renderToString(() => (
     <PageLayout>
-      <DynamicPageContent />
+      <div innerHTML={DynamicPageContent} />
     </PageLayout>
   ))
 
