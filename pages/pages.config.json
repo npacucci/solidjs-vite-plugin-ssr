@@ -5,7 +5,7 @@
             {
                 "component": "Counter",
                 "params": {
-                    "name": "Dynamic Counter"
+                    "name": "SSR + CSR Counter"
                 },
                 "ssr": true,
                 "csr": true
@@ -13,7 +13,7 @@
             {
                 "component": "Counter",
                 "params": {
-                    "name": "Static Counter"
+                    "name": "SSR Only Counter"
                 },
                 "ssr": true,
                 "csr": false
