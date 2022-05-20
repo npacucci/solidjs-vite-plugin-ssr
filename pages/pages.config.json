@@ -5,9 +5,23 @@
             {
                 "component": "Counter",
                 "params": {
-                    "name": "Demo1"
+                    "name": "Dynamic Counter"
                 },
-                "isCsr": true
+                "ssr": true,
+                "csr": true
+            },
+            {
+                "component": "Counter",
+                "params": {
+                    "name": "Static Counter"
+                },
+                "ssr": true,
+                "csr": false
+            },
+            {
+                "component": "Clock",
+                "ssr": false,
+                "csr": true
             }
         ]
     }

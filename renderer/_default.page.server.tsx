@@ -32,12 +32,16 @@ function render(pageContext: PageContext) {
 
   const DynamicPageContent: string = pageLayoutConfig.map((comp: any, i: number) => {
     const id: string = `comp-${i.toString()}`;
-    if (comp.isCsr) {
+    let ssrComponent: string = '';
+    if (comp.ssr) {
+      ssrComponent = renderToString(() => <DynamicComponent name={comp.component} params={{...comp.params}} />)
+    }
+    if (comp.csr) {
       csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
     }
     return `
     <div id="${id}">
-      ${renderToString(() => <DynamicComponent name={comp.component} params={{...comp.params}} />)}
+      ${ssrComponent}
     </div>
     `;
   }).join(''); 

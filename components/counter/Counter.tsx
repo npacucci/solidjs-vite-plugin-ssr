@@ -12,7 +12,7 @@ const Counter: Component<CounterProps> = (props: CounterProps) => {
 
   return (
     <button class="Counter-Btn" type="button" onClick={() => setCount((prev) => prev + 1)}>
-      Counter {props.name} {count()}
+      {props.name} {count()}
     </button>
   )
 }
