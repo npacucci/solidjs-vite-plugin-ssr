@@ -29,8 +29,11 @@
         "url": "/about",
         "layout": [
             {
-                "component": "Clock",
-                "ssr": false,
+                "component": "Counter",
+                "params": {
+                    "name": "SSR + CSR Counter"
+                },
+                "ssr": true,
                 "csr": true
             }
         ]
