@@ -1,10 +1,10 @@
-import { Component } from 'solid-js'
-import logo from './logo.svg'
-import './PageLayout.scss'
+import { Component } from 'solid-js';
+import logo from '/logo.svg';
+import './shell.scss';
 
-export { PageLayout }
+export { Page }
 
-const PageLayout: Component<any> = (props) => {
+const Page: Component<any> = (props) => {
   return (
     <Layout>
       <Sidebar>

@@ -1,8 +1,7 @@
 import { generateHydrationScript, renderToString } from 'solid-js/web'
-import { PageLayout } from './PageLayout'
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { PageContext } from './types'
-import logoUrl from './logo.svg'
+import logoUrl from '/logo.svg'
 import { CsrComponent } from '../interfaces/csr-component.interface';
 import config from '../pages/pages.config.json';
 import { DynamicComponent } from '../components/DynamicComponent'
@@ -29,27 +28,30 @@ async function onBeforeRender(pageContext: PageContext) {
 
 function render(pageContext: PageContext) {
   const { Page, pageProps, pageLayoutConfig } = pageContext;
+  let DynamicPageContent: string;
 
-  const DynamicPageContent: string = pageLayoutConfig.map((comp: any, i: number) => {
-    const id: string = `comp-${i.toString()}`;
-    let ssrComponent: string = '';
-    if (comp.ssr) {
-      ssrComponent = renderToString(() => <DynamicComponent name={comp.component} params={{...comp.params}} />)
-    }
-    if (comp.csr) {
-      csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
-    }
-    return `
-    <div id="${id}">
-      ${ssrComponent}
-    </div>
-    `;
-  }).join(''); 
+  if (pageLayoutConfig) {
+    DynamicPageContent = pageLayoutConfig.map((comp: any, i: number) => {
+      const id: string = `comp-${i.toString()}`;
+      let ssrComponent: string = '';
+      if (comp.ssr) {
+        ssrComponent = renderToString(() => <DynamicComponent name={comp.component} params={{...comp.params}} />)
+      }
+      if (comp.csr) {
+        csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
+      }
+      return `
+      <div id="${id}">
+        ${ssrComponent}
+      </div>
+      `;
+    }).join(''); 
+  }
 
   const pageHtml = renderToString(() => (
-    <PageLayout>
+    <Page>
       <div innerHTML={DynamicPageContent} />
-    </PageLayout>
+    </Page>
   ))
 
   // See https://vite-plugin-ssr.com/head
