@@ -8,9 +8,6 @@ const Page: Component = () => {
       This page is:
       <ul>
         <li>Rendered to HTML.</li>
-        <li>
-          Interactive. <DynamicComponent name="Counter" params={{name: 'test'}} />
-        </li>
       </ul>
     </>
   )

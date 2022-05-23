@@ -24,5 +24,15 @@
                 "csr": true
             }
         ]
+    },
+    {
+        "url": "/about",
+        "layout": [
+            {
+                "component": "Clock",
+                "ssr": false,
+                "csr": true
+            }
+        ]
     }
 ]
