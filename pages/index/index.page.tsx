@@ -1,5 +1,4 @@
 import { Component } from 'solid-js'
-import { DynamicComponent } from '../../components/DynamicComponent'
 
 const Page: Component = () => {
   return (
