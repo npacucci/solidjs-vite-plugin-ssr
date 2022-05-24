@@ -1,5 +1,6 @@
 import { hydrate } from 'solid-js/web'
 import { getPage } from 'vite-plugin-ssr/client'
+import { ClientRegistry } from '../components/csr-components.registry';
 import { DynamicComponent } from '../components/DynamicComponent';
 import { CsrComponent } from '../interfaces/csr-component.interface';
 
@@ -15,7 +16,7 @@ async function doHydrate() {
       if (ssrComponent) {
         hydrate(
           () => (
-            <DynamicComponent name={comp.name} params={{...comp.params}} />
+            <DynamicComponent registry={ClientRegistry} name={comp.name} params={{...comp.params}} />
           ),
           ssrComponent
         )

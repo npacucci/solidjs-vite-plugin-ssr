@@ -1,8 +1,6 @@
 import { Component, createSignal } from 'solid-js'
 import './Counter.scss';
 
-export { Counter }
-
 export interface CounterProps {
   name: string;
 }
@@ -16,3 +14,5 @@ const Counter: Component<CounterProps> = (props: CounterProps) => {
     </button>
   )
 }
+
+export default Counter;

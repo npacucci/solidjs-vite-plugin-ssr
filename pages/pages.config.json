@@ -3,20 +3,20 @@
         "url": "/",
         "layout": [
             {
+                "component": "Title",
+                "params": {
+                    "title": "SSR Title"
+                },
+                "ssr": true,
+                "csr": false
+            },
+            {
                 "component": "Counter",
                 "params": {
                     "name": "SSR + CSR Counter"
                 },
                 "ssr": true,
                 "csr": true
-            },
-            {
-                "component": "Counter",
-                "params": {
-                    "name": "SSR Only Counter"
-                },
-                "ssr": true,
-                "csr": false
             },
             {
                 "component": "Clock",
@@ -29,12 +29,12 @@
         "url": "/about",
         "layout": [
             {
-                "component": "Counter",
+                "component": "Title",
                 "params": {
-                    "name": "SSR + CSR Counter"
+                    "title": "SSR Title"
                 },
                 "ssr": true,
-                "csr": true
+                "csr": false
             }
         ]
     }

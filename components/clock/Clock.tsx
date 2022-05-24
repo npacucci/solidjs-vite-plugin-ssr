@@ -30,7 +30,7 @@ export const ClockFace: Component<ClockFaceProps> = ({ hour, minute, second, sub
   </svg>
 );
 
-export const Clock: Component = () => {
+const Clock: Component = () => {
   const [time, setTime] = createSignal<number>(getSecondsSinceMidnight());
   const dispose = createAnimationLoop(() => setTime(getSecondsSinceMidnight()));
   onCleanup(dispose);
@@ -54,4 +54,6 @@ export const Clock: Component = () => {
     </div>
   )
 };
+
+export default Clock;
 

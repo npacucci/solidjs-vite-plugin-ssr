@@ -4,7 +4,8 @@ import { PageContext } from './types'
 import logoUrl from '/logo.svg'
 import { CsrComponent } from '../interfaces/csr-component.interface';
 import config from '../pages/pages.config.json';
-import { DynamicComponent } from '../components/DynamicComponent'
+import { DynamicComponent } from '../components/DynamicComponent';
+import { ServerRegistry } from '../components/ssr-components.registry';
 
 export { render }
 export { passToClient }
@@ -35,7 +36,7 @@ function render(pageContext: PageContext) {
       const id: string = `comp-${i.toString()}`;
       let ssrComponent: string = '';
       if (comp.ssr) {
-        ssrComponent = renderToString(() => <DynamicComponent name={comp.component} params={{...comp.params}} />)
+        ssrComponent = renderToString(() => <DynamicComponent registry={ServerRegistry} name={comp.component} params={{...comp.params}} />)
       }
       if (comp.csr) {
         csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
