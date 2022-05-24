@@ -7,7 +7,6 @@ export interface DynamicComponentProps {
     params: any;
 }
 
-
 export const DynamicComponent: Component<DynamicComponentProps> = (props: DynamicComponentProps) => {
     const {registry, name, params} = props;
     const ComponentInstance = lazy(() => registry[name]());
