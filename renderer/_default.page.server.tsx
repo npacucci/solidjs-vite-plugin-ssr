@@ -4,8 +4,8 @@ import { PageContext } from './types'
 import logoUrl from '/logo.svg'
 import { CsrComponent } from '../interfaces/csr-component.interface';
 import config from '../pages/pages.config.json';
-import { DynamicComponent } from '../components/DynamicComponent';
 import { ServerRegistry } from '../components/ssr-components.registry';
+import { lazy } from 'solid-js';
 
 export { render }
 export { passToClient }
@@ -27,26 +27,30 @@ async function onBeforeRender(pageContext: PageContext) {
   }
 }
 
-function render(pageContext: PageContext) {
+async function render(pageContext: PageContext) {
   const { Page, pageProps, pageLayoutConfig } = pageContext;
   let DynamicPageContent: string;
 
   if (pageLayoutConfig) {
-    DynamicPageContent = pageLayoutConfig.map((comp: any, i: number) => {
+    const results = await Promise.all(pageLayoutConfig.map(async (comp: any, i: number) => {
+      const {component, params, csr, ssr} = comp;
       const id: string = `comp-${i.toString()}`;
       let ssrComponent: string = '';
-      if (comp.ssr) {
-        ssrComponent = renderToString(() => <DynamicComponent registry={ServerRegistry} name={comp.component} params={{...comp.params}} />)
+      if (ssr) {
+        const DynamicComponent = (await lazy(() => ServerRegistry[component]()).preload()).default;
+        ssrComponent = renderToString(() => <DynamicComponent {...params} />);
       }
-      if (comp.csr) {
-        csrComponents.push({id: id, name: comp.component, params: comp.params} as CsrComponent);
+      if (csr) {
+        csrComponents.push({id: id, name: component, params: params} as CsrComponent);
       }
       return `
       <div id="${id}">
         ${ssrComponent}
       </div>
       `;
-    }).join(''); 
+    }));
+
+    DynamicPageContent = results.join('');
   }
 
   const pageHtml = renderToString(() => (

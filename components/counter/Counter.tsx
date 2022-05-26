@@ -2,7 +2,7 @@ import { Component, createSignal } from 'solid-js'
 import './Counter.scss';
 
 export interface CounterProps {
-  name: string;
+  name?: string;
 }
 
 const Counter: Component<CounterProps> = (props: CounterProps) => {
