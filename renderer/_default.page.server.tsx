@@ -2,10 +2,10 @@ import { generateHydrationScript, renderToString } from 'solid-js/web'
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { PageContext } from './types'
 import logoUrl from '/logo.svg'
-import { CsrComponent } from '../interfaces/csr-component.interface';
+import { CsrComponent } from '../lib/interfaces/csr-component.interface';
 import config from '../pages/pages.config.json';
-import { ServerRegistry } from '../components/ssr-components.registry';
-import { lazy } from 'solid-js';
+import { ServerImports } from '../components/server.imports';
+import { dynamicImport } from '../lib/utils/dynamic-import.util';
 
 export { render }
 export { passToClient }
@@ -32,21 +32,29 @@ async function render(pageContext: PageContext) {
   let DynamicPageContent: string;
 
   if (pageLayoutConfig) {
-    const results = await Promise.all(pageLayoutConfig.map(async (comp: any, i: number) => {
-      const {component, params, csr, ssr} = comp;
+    const results = await Promise.all(pageLayoutConfig.map(async (block: any, i: number) => {
+      const {component, params, csr, ssr} = block;
+      const tag: string = `bf-${component.toLowerCase()}`;
       const id: string = `comp-${i.toString()}`;
       let ssrComponent: string = '';
+
       if (ssr) {
-        const DynamicComponent = (await lazy(() => ServerRegistry[component]()).preload()).default;
+        const DynamicComponent = await dynamicImport(ServerImports, component);
         ssrComponent = renderToString(() => <DynamicComponent {...params} />);
       }
       if (csr) {
-        csrComponents.push({id: id, name: component, params: params} as CsrComponent);
+        const csrComponent = {name: component} as CsrComponent;
+        if (csr === 'hydrate') {
+          csrComponent.id = id;
+          // If we want we can also pass some serialized params/data from server to client.
+          // csrComponent.params = params;
+        }
+        csrComponents.push(csrComponent);
       }
       return `
-      <div id="${id}">
+      <${tag} id="${id}">
         ${ssrComponent}
-      </div>
+      </${tag}>
       `;
     }));
 

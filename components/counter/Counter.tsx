@@ -3,14 +3,16 @@ import './Counter.scss';
 
 export interface CounterProps {
   name?: string;
+  start?: number;
 }
 
 const Counter: Component<CounterProps> = (props: CounterProps) => {
-  const [count, setCount] = createSignal(2);
+  const { name, start } = props;
+  const [count, setCount] = createSignal(start ?? 2);
 
   return (
     <button class="Counter-Btn" type="button" onClick={() => setCount((prev) => prev + 1)}>
-      {props.name} {count()}
+      {name} {count()}
     </button>
   )
 }

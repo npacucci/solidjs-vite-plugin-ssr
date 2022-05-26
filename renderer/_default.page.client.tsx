@@ -1,26 +1,34 @@
-import { lazy } from 'solid-js';
 import { hydrate } from 'solid-js/web'
 import { getPage } from 'vite-plugin-ssr/client'
-import { ClientRegistry } from '../components/csr-components.registry';
-import { CsrComponent } from '../interfaces/csr-component.interface';
+import { ClientImports } from '../components/client.imports';
+import { CsrComponent } from '../lib/interfaces/csr-component.interface';
+import { dynamicImport } from '../lib/utils/dynamic-import.util';
 
-doHydrate();
+Main();
 
-async function doHydrate() {
+async function Main() {
   const pageContext = await getPage<any>();
   const csrComponents: CsrComponent[] = pageContext.csrComponents || [];
 
   if (csrComponents?.length) {
     csrComponents.forEach(async (comp: CsrComponent) => {
-      const ssrComponent = document.getElementById(comp.id);
-      if (ssrComponent) {
-        const DynamicComponent = (await lazy(() => ClientRegistry[comp.name]()).preload()).default;
-        hydrate(
-          () => (
-            <DynamicComponent {...(comp.params)} />
-          ),
-          ssrComponent
-        )
+      const {name, id , params} = comp;
+      // If id, hydration of this host is needed.
+      if (id) {
+        const ssrHost = document.getElementById(id);
+        if (ssrHost) {
+          const DynamicComponent = await dynamicImport(ClientImports, name);
+          hydrate(
+            () => (
+              <DynamicComponent {...(params)} />
+            ),
+            ssrHost
+          )
+        }
+      }
+      else {
+        // Just need to fetch the assets of this component.
+        ClientImports[name]();
       }
     })
   }

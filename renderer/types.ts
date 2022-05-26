@@ -1,6 +1,6 @@
 import { Component } from 'solid-js'
 import type { PageContextBuiltIn } from 'vite-plugin-ssr'
-import { CsrComponent } from '../interfaces/csr-component.interface'
+import { CsrComponent } from '../lib/interfaces/csr-component.interface'
 export type PageProps = {}
 export type PageContext = PageContextBuiltIn & {
   Page: (pageProps: PageProps) => Component

@@ -8,20 +8,30 @@
                     "title": "SSR Title"
                 },
                 "ssr": true,
-                "csr": false
+                "csr": "assets"
             },
             {
                 "component": "Counter",
                 "params": {
-                    "name": "SSR + CSR Counter"
+                    "name": "SSR + CSR Counter",
+                    "start": 0
                 },
                 "ssr": true,
-                "csr": true
+                "csr": "hydrate"
+            },
+            {
+                "component": "Counter",
+                "params": {
+                    "name": "Additional SSR + CSR Counter",
+                    "start": 2
+                },
+                "ssr": true,
+                "csr": "hydrate"
             },
             {
                 "component": "Clock",
                 "ssr": false,
-                "csr": true
+                "csr": "hydrate"
             }
         ]
     },
@@ -34,7 +44,7 @@
                     "title": "SSR Title"
                 },
                 "ssr": true,
-                "csr": false
+                "csr": "assets"
             }
         ]
     }
