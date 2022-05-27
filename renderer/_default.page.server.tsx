@@ -12,7 +12,7 @@ export { passToClient }
 export { onBeforeRender }
 
 // See https://vite-plugin-ssr.com/data-fetching
-const passToClient = ['pageProps', 'documentProps', 'csrComponents'];
+const passToClient = ['csrComponents'];
 const prefix: string = 'comp';
 let csrComponents: CsrComponent[] = [];
 
@@ -47,8 +47,9 @@ async function render(pageContext: PageContext) {
         const csrComponent = {name: component} as CsrComponent;
         if (csr === 'hydrate') {
           csrComponent.id = id;
-          // If we want we can also pass some serialized params/data from server to client.
-          // csrComponent.params = params;
+          if (params) {
+            csrComponent.params = params;
+          }
         }
         csrComponents.push(csrComponent);
       }

@@ -23,7 +23,7 @@
                 "component": "Counter",
                 "params": {
                     "name": "Additional SSR + CSR Counter",
-                    "start": 2
+                    "start": 5
                 },
                 "ssr": true,
                 "csr": "hydrate"
