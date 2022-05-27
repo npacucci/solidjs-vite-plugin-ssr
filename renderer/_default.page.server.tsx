@@ -6,6 +6,7 @@ import { CsrComponent } from '../lib/interfaces/csr-component.interface';
 import config from '../pages/pages.config.json';
 import { ServerImports } from '../components/server.imports';
 import { dynamicImport } from '../lib/utils/dynamic-import.util';
+import { Block } from '../lib/interfaces/block.interface';
 
 export { render }
 export { passToClient }
@@ -33,7 +34,7 @@ async function render(pageContext: PageContext) {
   let DynamicPageContent: string;
 
   if (pageLayoutConfig) {
-    const results = await Promise.all(pageLayoutConfig.map(async (block: any, i: number) => {
+    const results = await Promise.all(pageLayoutConfig.map(async (block: Block, i: number) => {
       const {component, params, csr, ssr} = block;
       const tag: string = `${prefix}-${component.toLowerCase()}`;
       const id: string = `${prefix}-${i.toString()}`;
