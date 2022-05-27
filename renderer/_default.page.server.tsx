@@ -13,6 +13,7 @@ export { onBeforeRender }
 
 // See https://vite-plugin-ssr.com/data-fetching
 const passToClient = ['pageProps', 'documentProps', 'csrComponents'];
+const prefix: string = 'comp';
 let csrComponents: CsrComponent[] = [];
 
 async function onBeforeRender(pageContext: PageContext) {
@@ -34,8 +35,8 @@ async function render(pageContext: PageContext) {
   if (pageLayoutConfig) {
     const results = await Promise.all(pageLayoutConfig.map(async (block: any, i: number) => {
       const {component, params, csr, ssr} = block;
-      const tag: string = `bf-${component.toLowerCase()}`;
-      const id: string = `comp-${i.toString()}`;
+      const tag: string = `${prefix}-${component.toLowerCase()}`;
+      const id: string = `${prefix}-${i.toString()}`;
       let ssrComponent: string = '';
 
       if (ssr) {
