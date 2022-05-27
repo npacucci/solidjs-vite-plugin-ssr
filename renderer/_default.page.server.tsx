@@ -7,6 +7,8 @@ import config from '../pages/pages.config.json';
 import { ServerImports } from '../components/server.imports';
 import { dynamicImport } from '../lib/utils/dynamic-import.util';
 import { Block } from '../lib/interfaces/block.interface';
+import { ComponentSettings, RenderTypes } from '../lib/interfaces/component-settings.interface';
+import { ComponentsSettings } from '../components/components.settings';
 
 export { render }
 export { passToClient }
@@ -35,18 +37,19 @@ async function render(pageContext: PageContext) {
 
   if (pageLayoutConfig) {
     const results = await Promise.all(pageLayoutConfig.map(async (block: Block, i: number) => {
-      const {component, params, csr, ssr} = block;
+      const {component, params} = block;
+      const settings: ComponentSettings = ComponentsSettings[component];
       const tag: string = `${prefix}-${component.toLowerCase()}`;
       const id: string = `${prefix}-${i.toString()}`;
       let ssrComponent: string = '';
 
-      if (ssr) {
+      if (settings.render !== RenderTypes.CSR) {
         const DynamicComponent = await dynamicImport(ServerImports, component);
         ssrComponent = renderToString(() => <DynamicComponent {...params} />);
       }
-      if (csr) {
+      if (settings.render !== RenderTypes.SSRNoStyle) {
         const csrComponent = {name: component} as CsrComponent;
-        if (csr === 'hydrate') {
+        if (settings.render === RenderTypes.CSR || settings.render === RenderTypes.Universal) {
           csrComponent.id = id;
           if (params) {
             csrComponent.params = params;

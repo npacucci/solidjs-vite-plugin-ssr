@@ -1,5 +1,5 @@
 import { DynamicImport } from "../lib/types/dynamic-import.type";
 
-export const GlobalImports: {[component: string]: DynamicImport} = {
+export const UniversalImports: {[component: string]: DynamicImport} = {
     Counter: () => import("./counter/Counter"),
 }
