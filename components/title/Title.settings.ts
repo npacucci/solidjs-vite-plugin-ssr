@@ -1,5 +1,5 @@
-import { ComponentSettings, RenderTypes } from "../../lib/interfaces/component-settings.interface";
+import { ComponentSettings, Render } from "../../lib/interfaces/component-settings.interface";
 
 export const TitleSettings: ComponentSettings = {
-    render: RenderTypes.SSR
+    render: Render.SSR
 };

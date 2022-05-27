@@ -7,7 +7,7 @@ import config from '../pages/pages.config.json';
 import { ServerImports } from '../components/server.imports';
 import { dynamicImport } from '../lib/utils/dynamic-import.util';
 import { Block } from '../lib/interfaces/block.interface';
-import { ComponentSettings, RenderTypes } from '../lib/interfaces/component-settings.interface';
+import { ComponentSettings, Render } from '../lib/interfaces/component-settings.interface';
 import { ComponentsSettings } from '../components/components.settings';
 
 export { render }
@@ -43,13 +43,13 @@ async function render(pageContext: PageContext) {
       const id: string = `${prefix}-${i.toString()}`;
       let ssrComponent: string = '';
 
-      if (settings.render !== RenderTypes.CSR) {
+      if (settings.render !== Render.CSR) {
         const DynamicComponent = await dynamicImport(ServerImports, component);
         ssrComponent = renderToString(() => <DynamicComponent {...params} />);
       }
-      if (settings.render !== RenderTypes.SSRNoStyle) {
+      if (settings.render !== Render.SSRNoStyle) {
         const csrComponent = {name: component} as CsrComponent;
-        if (settings.render === RenderTypes.CSR || settings.render === RenderTypes.Universal) {
+        if (settings.render === Render.CSR || settings.render === Render.Universal) {
           csrComponent.id = id;
           if (params) {
             csrComponent.params = params;

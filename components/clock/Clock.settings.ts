@@ -1,5 +1,5 @@
-import { ComponentSettings, RenderTypes } from "../../lib/interfaces/component-settings.interface";
+import { ComponentSettings, Render } from "../../lib/interfaces/component-settings.interface";
 
 export const ClockSettings: ComponentSettings = {
-    render: RenderTypes.CSR
+    render: Render.CSR
 };

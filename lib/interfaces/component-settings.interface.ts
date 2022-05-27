@@ -1,8 +1,8 @@
 export interface ComponentSettings {
-    render: RenderTypes;
+    render: Render;
 }
 
-export enum RenderTypes {
+export enum Render {
     SSR,
     SSRNoStyle,
     CSR,
